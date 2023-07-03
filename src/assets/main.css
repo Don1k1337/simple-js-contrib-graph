@@ -4,9 +4,9 @@
     --week-width: calc(var(--square-size) + var(--square-gap));
 }
 
-.months { grid-area: months; }
-.days { grid-area: days; }
-.squares { grid-area: squares; }
+.graph__month { grid-area: months; }
+.graph__days { grid-area: days; }
+.graph__squares { grid-area: squares; }
 
 .graph {
     color: #959494;
@@ -26,71 +26,103 @@
     margin: 20px;
 }
 
-.months {
+.graph__month {
     display: grid;
     grid-template-columns:
     repeat(8, calc(var(--week-width) * 3)) /* May - Dec (current year) */
     repeat(4, calc(var(--week-width) * 3)); /* Jan - Apr (next year) */
 }
 
-.days,
-.squares {
+.graph__days,
+.graph__squares {
     display: grid;
     grid-gap: var(--square-gap);
     grid-template-rows: repeat(7, var(--square-size));
 }
 
-.squares {
+.graph__squares {
     grid-auto-flow: column;
 }
 
-.squares li {
-    background-color: rgb(237, 237, 237);
+.graph__squares .selected {
+    border-radius: 2px;
 }
 
-.squares li[data-level="1"] {
+.graph__squares li {
+    background-color: #EDEDED;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+.graph__squares li[data-level="1"] {
     background-color: #ACD5F2;
 }
 
-.squares li[data-level="2"] {
+.graph__squares li[data-level="2"] {
     background-color: #7FA8C9;
 }
 
-.squares li[data-level="3"] {
+.graph__squares li[data-level="3"] {
     background-color: #527BA0;
 }
 
-.squares li[data-level="4"] {
+.graph__squares li[data-level="4"] {
     background-color: #254E77;
 }
 
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.graph__squares .selected {
+    border: 1px solid black;
 }
 
-.empty-day {
-    visibility: hidden;
-    margin-top: 1rem;
+.graph__squares .highlighted:hover {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+.graph__description {
+    display: flex;
+    flex-direction: row;
+    margin-left: 4.5rem;
+    margin-bottom: 0;
+    color: #959494;
+    font-size: 8px;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 12px;
+.graph__description-day {
+    width: 15px;
+    height: 15px;
+    margin: 1px;
 }
 
-.popup {
-    display: none;
-    position: fixed;
-    width: 145px;
-    height: 47px;
-    border-radius: 3px;
-    background: #000;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 12px;
-    pointer-events: none;
+.graph__description-day[data-count="0"] {
+    background-color: #EDEDED;
+}
+
+.graph__description-day[data-count="1"] {
+    background-color: #ACD5F2;
+}
+
+.graph__description-day[data-count="2"] {
+    background-color: #7FA8C9;
+}
+
+.graph__description-day[data-count="3"] {
+    background-color: #527BA0;
+}
+
+.graph__description-day[data-count="4"] {
+    background-color: #254E77;
+}
+
+
+.graph__description-text {
+    margin-top: 0.26rem;
+    margin-right: 6px;
+    margin-left: 6px;
 }
 
 .squares__contributions h2 {
@@ -113,4 +145,33 @@ body {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.graph__days-empty {
+    visibility: hidden;
+    margin-top: 1rem;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    width: 145px;
+    height: 47px;
+    border-radius: 3px;
+    background: #000;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    pointer-events: none;
 }

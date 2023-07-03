@@ -3,13 +3,21 @@ const fetchData = async () => {
         const response = await fetch('https://dpg.gg/test/calendar.json');
         const data = await response.json();
 
-        const squaresUl = document.querySelector('.squares');
+        const squaresUl = document.querySelector('.graph__squares');
 
-        // Sort the dates in ascending order
-        const sortedDates = Object.keys(data).sort();
+        // Get the keys (dates) from the data object
+        const dates = Object.keys(data);
 
-        // Create an array of weekdays in the desired order (Sunday to Saturday)
-        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        // Create an array of weekdays in the desired order (Sun to Sat)
+        const weekdays = [
+            'Воскресенье',
+            'Понедельник',
+            'Вторник',
+            'Среда',
+            'Четверг',
+            'Пятница',
+            'Суббота',
+        ];
 
         // Get the current date to determine the offset
         const currentDate = new Date();
@@ -18,17 +26,15 @@ const fetchData = async () => {
         // Calculate the offset to align the first day in the data with Sunday
         const offset = currentDay === 0 ? 0 : 7 - currentDay;
 
-        for (let i = offset; i < sortedDates.length + offset; i++) {
-            // Get the index of the weekday, modulo 7 to handle wrap-around
-            const weekdayIndex = i % 7;
+        let selectedElement = null;
 
-            // Get the corresponding weekday name
-            const weekdayName = weekdays[weekdayIndex];
+        for (let i = 0; i < dates.length; i++) {
+            // Calculate the correct index for the date taking into account the offset
+            const dateIndex = (i + offset) % dates.length;
 
-            // Get the date for the current weekday
-            const dateIndex = i - offset;
-            const date = sortedDates[dateIndex];
-            const level = data[date] || 0; // Use the level from the data or default to 0
+            // Get the date for the current index
+            const date = dates[dateIndex];
+            const level = data[date] || 0;
 
             const li = document.createElement('li');
             li.setAttribute('data-level', level);
@@ -37,26 +43,31 @@ const fetchData = async () => {
             let isSquareClicked = false;
             let isPopupDisplayed = false;
 
-            // Function to show or hide the popup based on click status
-            const togglePopup = () => {
+            // Logic for show / hide the popup based on click status
+            const togglePopup = (event) => {
+                const li = event.currentTarget;
                 if (isPopupDisplayed) {
                     const popup = document.querySelector('.popup');
                     popup.style.display = 'none';
                     isPopupDisplayed = false;
                 } else {
-                    const commitCount = parseInt(level);
-                    const hasDataLevel = li.hasAttribute('data-level');
-                    const isDefaultColor = getComputedStyle(li).backgroundColor === 'rgb(237, 237, 237)';
+                    const commitCount = parseInt(li.getAttribute('data-level'));
+                    const isDefaultColor =
+                        getComputedStyle(li).backgroundColor === 'rgb(237, 237, 237)';
 
-                    if (hasDataLevel && commitCount > 0 && !isDefaultColor) {
+                    if (!isNaN(commitCount) && commitCount > 0 && !isDefaultColor) {
                         const commitDate = new Date(date);
-                        const dayOfWeek = weekdayName;
-                        const month = commitDate.toLocaleDateString('en-US', { month: 'long' });
-                        const day = commitDate.toLocaleDateString('en-US', { day: 'numeric' });
+                        const dayOfWeek = weekdays[commitDate.getDay()]; // Get the weekday name directly from the date
+                        const month = commitDate.toLocaleDateString('ru-RU', {
+                            month: 'long',
+                        });
+                        const day = commitDate.toLocaleDateString('ru-RU', { day: 'numeric' });
                         const popup = document.querySelector('.popup');
 
                         // Set the popup content and position
-                        popup.innerHTML = `<div class="squares__contributions"><h2>${commitCount} contribution${commitCount !== 1 ? 's' : ''}</h2></div><p class="squares__contributions-date">${dayOfWeek}, ${month} ${day}, ${commitDate.getFullYear()}</p>`;
+                        popup.innerHTML = `<div class="squares__contributions"><h2>${commitCount} contribution${
+                            commitCount !== 1 ? 's' : ''
+                        }</h2></div><p class="squares__contributions-date">${dayOfWeek}, ${month} ${day}, ${commitDate.getFullYear()}</p>`;
                         popup.style.left = `${event.pageX}px`;
                         popup.style.top = `${event.pageY}px`;
 
@@ -67,23 +78,34 @@ const fetchData = async () => {
                 }
             };
 
-            // Add click event listener to each square
             li.addEventListener('click', (event) => {
-                isSquareClicked = true;
-                togglePopup();
+                // Check if there is a previously selected square
+                if (selectedElement) {
+                    selectedElement.classList.remove('selected');
+                }
+
+                const li = event.currentTarget;
+                li.classList.add('selected');
+
+                selectedElement = li;
+
+                togglePopup(event);
             });
 
-            li.addEventListener('mouseenter', (event) => {
-                if (!isSquareClicked) {
-                    togglePopup();
-                }
+            li.addEventListener('mouseover', (event) => {
+                const li = event.currentTarget;
+                li.classList.add('highlighted');
             });
 
             li.addEventListener('mouseleave', (event) => {
+                const li = event.currentTarget;
+                li.classList.remove('highlighted');
                 if (!isSquareClicked) {
                     const popup = document.querySelector('.popup');
                     popup.style.display = 'none';
                     isPopupDisplayed = false;
+                    li.classList.remove('selected');
+                    selectedElement = null;
                 }
             });
         }

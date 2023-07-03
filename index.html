@@ -10,30 +10,46 @@
     <script src="src/main.js"></script>
 </head>
 <body>
-<div class="graph">
-    <ul class="months">
-        <li>Май</li>
-        <li>Июнь</li>
-        <li>Июль</li>
-        <li>Авг.</li>
-        <li>Сент.</li>
-        <li>Окт.</li>
-        <li>Нояб.</li>
-        <li>Дек.</li>
-        <li>Февр.</li>
-        <li>Март</li>
-        <li>Апр.</li>
-        <li>Май</li>
-    </ul>
-    <ul class="days">
-        <li>Пн.</li>
-        <li class="empty-day"></li>
-        <li>Ср.</li>
-        <li class="empty-day"></li>
-        <li>Пт.</li>
-    </ul>
-    <ul class="squares"></ul>
+<div class="wrapper">
+    <div class="graph">
+        <ul class="graph__month">
+            <li>Май</li>
+            <li>Июнь</li>
+            <li>Июль</li>
+            <li>Авг.</li>
+            <li>Сент.</li>
+            <li>Окт.</li>
+            <li>Нояб.</li>
+            <li>Дек.</li>
+            <li>Февр.</li>
+            <li>Март</li>
+            <li>Апр.</li>
+            <li>Май</li>
+        </ul>
+        <ul class="graph__days">
+            <li class="graph__days-empty"></li>
+            <li>Пн.</li>
+            <li class="graph__days-empty"></li>
+            <li>Ср.</li>
+            <li class="graph__days-empty"></li>
+            <li>Пт.</li>
+        </ul>
+
+        <ul class="graph__squares"></ul>
+
+    </div>
+
+    <div class="graph__description">
+        <span class="graph__description-text">Меньше</span>
+        <span class="graph__description-day" data-count="0"></span>
+        <span class="graph__description-day" data-count="1"></span>
+        <span class="graph__description-day" data-count="2"></span>
+        <span class="graph__description-day" data-count="3"></span>
+        <span class="graph__description-day" data-count="4"></span>
+        <span class="graph__description-text">Больше</span>
+    </div>
+
+    <div class="popup"></div>
 </div>
-<div class="popup"></div>
 </body>
 </html>
