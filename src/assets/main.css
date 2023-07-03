@@ -45,7 +45,7 @@
 }
 
 .squares li {
-    background-color: #EDEDED;
+    background-color: rgb(237, 237, 237);
 }
 
 .squares li[data-level="1"] {
@@ -78,4 +78,39 @@ ul {
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 12px;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    width: 145px;
+    height: 47px;
+    border-radius: 3px;
+    background: #000;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+.squares__contributions h2 {
+    margin: 5px;
+    color: #FFF;
+    font-size: 12px;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
+.squares__contributions-date {
+    margin: 4px;
+    text-align: center;
+    color: #7C7C7C;
+    font-size: 10px;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
