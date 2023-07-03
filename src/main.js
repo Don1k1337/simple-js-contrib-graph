@@ -5,7 +5,7 @@ const fetchData = async () => {
 
         const squaresUl = document.querySelector('.graph__squares');
 
-        const dates = Object.keys(data)
+        const dates = Object.keys(data).slice(-357);
 
         // Create an array of weekdays in the desired order (Sunday to Saturday)
         const weekdays = [
@@ -59,6 +59,7 @@ const fetchData = async () => {
                         getComputedStyle(li).backgroundColor === 'rgb(237, 237, 237)';
 
                     if (!isNaN(commitCount) && commitCount > 0 && !isDefaultColor) {
+                        // There are contributions, show the regular popup
                         const commitDate = new Date(date);
                         const dayOfWeek = weekdayName;
                         const month = commitDate.toLocaleDateString('ru-RU', {
@@ -71,6 +72,24 @@ const fetchData = async () => {
                         popup.innerHTML = `<div class="squares__contributions"><h2>${commitCount} contribution${
                             commitCount !== 1 ? 's' : ''
                         }</h2></div><p class="squares__contributions-date">${dayOfWeek}, ${month} ${day}, ${commitDate.getFullYear()}</p>`;
+                        popup.style.left = `${event.pageX}px`;
+                        popup.style.top = `${event.pageY}px`;
+
+                        // Show the popup
+                        popup.style.display = 'block';
+                        isPopupDisplayed = true;
+                    } else {
+                        // No contributions, show a different popup message
+                        const commitDate = new Date(date);
+                        const dayOfWeek = weekdayName;
+                        const month = commitDate.toLocaleDateString('ru-RU', {
+                            month: 'long',
+                        });
+                        const day = commitDate.toLocaleDateString('ru-RU', { day: 'numeric' });
+                        const popup = document.querySelector('.popup');
+
+                        // Set the popup content and position
+                        popup.innerHTML = `<div class="squares__contributions"><h2>No contributions</h2></div><p class="squares__contributions-date">${dayOfWeek}, ${month} ${day}, ${commitDate.getFullYear()}</p>`;
                         popup.style.left = `${event.pageX}px`;
                         popup.style.top = `${event.pageY}px`;
 
