@@ -5,7 +5,7 @@ const fetchData = async () => {
 
         const squaresUl = document.querySelector('.graph__squares');
 
-        const dates = Object.keys(data).slice(-357);
+        const dates = Object.keys(data);
 
         // Create an array of weekdays in the desired order (Sunday to Saturday)
         const weekdays = [
