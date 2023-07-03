@@ -5,10 +5,9 @@ const fetchData = async () => {
 
         const squaresUl = document.querySelector('.graph__squares');
 
-        // Get the keys (dates) from the data object
-        const dates = Object.keys(data);
+        const dates = Object.keys(data)
 
-        // Create an array of weekdays in the desired order (Sun to Sat)
+        // Create an array of weekdays in the desired order (Sunday to Saturday)
         const weekdays = [
             'Воскресенье',
             'Понедельник',
@@ -29,10 +28,14 @@ const fetchData = async () => {
         let selectedElement = null;
 
         for (let i = 0; i < dates.length; i++) {
-            // Calculate the correct index for the date taking into account the offset
-            const dateIndex = (i + offset) % dates.length;
+            // Get the index of the weekday
+            const weekdayIndex = i % 7;
 
-            // Get the date for the current index
+            // Get the corresponding weekday name
+            const weekdayName = weekdays[weekdayIndex];
+
+            // Get the date for the current weekday
+            const dateIndex = i - offset;
             const date = dates[dateIndex];
             const level = data[date] || 0;
 
@@ -57,7 +60,7 @@ const fetchData = async () => {
 
                     if (!isNaN(commitCount) && commitCount > 0 && !isDefaultColor) {
                         const commitDate = new Date(date);
-                        const dayOfWeek = weekdays[commitDate.getDay()]; // Get the weekday name directly from the date
+                        const dayOfWeek = weekdayName;
                         const month = commitDate.toLocaleDateString('ru-RU', {
                             month: 'long',
                         });
