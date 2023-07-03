@@ -1,1 +1,81 @@
-/* Main stylesheets  */
+:root {
+    --square-size: 15px;
+    --square-gap: 3px;
+    --week-width: calc(var(--square-size) + var(--square-gap));
+}
+
+.months { grid-area: months; }
+.days { grid-area: days; }
+.squares { grid-area: squares; }
+
+.graph {
+    color: #959494;
+    font-size: 12px;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: inline-grid;
+    grid-template-areas:
+    "empty months"
+    "days squares";
+    grid-template-columns: auto 1fr;
+    grid-gap: 10px;
+    padding: 20px;
+    border: 1px solid #e1e4e8;
+    margin: 20px;
+}
+
+.months {
+    display: grid;
+    grid-template-columns:
+    repeat(8, calc(var(--week-width) * 3)) /* May - Dec (current year) */
+    repeat(4, calc(var(--week-width) * 3)); /* Jan - Apr (next year) */
+}
+
+.days,
+.squares {
+    display: grid;
+    grid-gap: var(--square-gap);
+    grid-template-rows: repeat(7, var(--square-size));
+}
+
+.squares {
+    grid-auto-flow: column;
+}
+
+.squares li {
+    background-color: #EDEDED;
+}
+
+.squares li[data-level="1"] {
+    background-color: #ACD5F2;
+}
+
+.squares li[data-level="2"] {
+    background-color: #7FA8C9;
+}
+
+.squares li[data-level="3"] {
+    background-color: #527BA0;
+}
+
+.squares li[data-level="4"] {
+    background-color: #254E77;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.empty-day {
+    visibility: hidden;
+    margin-top: 1rem;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+}
